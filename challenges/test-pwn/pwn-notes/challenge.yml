@@ -1,0 +1,28 @@
+name: "Heap Notes"
+slug: pwn-notes
+category: "Test-Pwn"
+description: |
+  A note-taking service backed by the heap. Create, view, edit, and delete notes.
+
+  The developer forgot to clear the pointer after `free()`. Classic use-after-free.
+  Exploit tcache poisoning to hijack a function pointer.
+
+  **Binary protections**: NX, canary, PIE, Full RELRO
+  **Libc**: Ubuntu 22.04 (glibc 2.35)
+
+  `nc <host> <port>`
+value: 500
+minimum: 50
+decay: 10
+flag: "CTF{heap_uaf_tcache_poison_hijack}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "Free a note, then access it again — the pointer isn't cleared (UAF)"
+    cost: 100
+  - content: "Use the UAF to read tcache fd pointer, leak heap base, then poison tcache to allocate at a target address"
+    cost: 150
+  - content: "Target: overwrite the 'print_note' function pointer stored in the heap to point to system()"
+    cost: 200

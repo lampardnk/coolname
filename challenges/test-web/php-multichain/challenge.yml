@@ -1,0 +1,27 @@
+name: "LegacyCMS"
+slug: php-multichain
+category: "Test-Web"
+description: |
+  A PHP CMS from 2009 that's still running in production. There are **3 flags** inside.
+
+  - **Flag 1** — The page loader reads files directly. What's outside the web root?
+  - **Flag 2** — A config file holds secrets, but direct access is blocked. PHP has other ways to read files.
+  - **Flag 3** — The admin panel runs commands. Find the password (from Flag 2) to get in.
+
+  Each flag builds on the previous.
+value: 400
+flag:
+  - "CTF{lfi_path_traversal_reads_files}"
+  - "CTF{php_filter_reveals_source_code}"
+  - "CTF{rce_via_command_injection_admin}"
+type: web
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "Flag 1: The page parameter is passed directly to include(). The flags are at /flag1.txt"
+    cost: 75
+  - content: "Flag 2: php://filter/convert.base64-encode/resource= lets you read file contents as base64 without executing them."
+    cost: 100
+  - content: "Flag 3: /admin.php?pass=PASSWORD&cmd=COMMAND — the password is in config.php."
+    cost: 100

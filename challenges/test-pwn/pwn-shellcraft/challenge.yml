@@ -1,0 +1,26 @@
+name: "Shellcraft"
+slug: pwn-shellcraft
+category: "Test-Pwn"
+description: |
+  The developer forgot to enable NX. The stack is executable.
+
+  Send your shellcode — the program will jump straight to it.
+
+  **Binary protections**: none (no NX, no canary, no PIE)
+
+  `nc <host> <port>`
+value: 250
+minimum: 50
+decay: 10
+flag: "CTF{shellcode_execve_stack_nop_sled}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "The binary reads up to 256 bytes into a buffer, then jumps to it."
+    cost: 0
+  - content: "Use pwntools shellcraft: asm(shellcraft.sh()) to generate execve shellcode"
+    cost: 75
+  - content: "Add a NOP sled before your shellcode: b'\\x90' * 16 + shellcode"
+    cost: 100

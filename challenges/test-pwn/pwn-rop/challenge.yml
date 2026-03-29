@@ -1,0 +1,28 @@
+name: "ROP Emperor"
+slug: pwn-rop
+category: "Test-Pwn"
+description: |
+  Full mitigations: ASLR, PIE, canary, NX, Full RELRO.
+
+  A two-stage exploit is required:
+  1. Leak the stack canary and PIE base via a format string vulnerability
+  2. Use the leaked addresses to build a ROP chain that calls `system("/bin/sh")`
+
+  **Binary protections**: NX, canary, PIE, Full RELRO, ASLR
+
+  `nc <host> <port>`
+value: 550
+minimum: 50
+decay: 10
+flag: "CTF{rop_chain_full_mitigation_bypass}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "Stage 1: printf(buf) leaks canary at offset N, PIE base at offset M — find them with %p chain"
+    cost: 100
+  - content: "Stage 2: use leaked PIE base to find gadgets (pop rdi; ret, ret), calculate libc base from puts@got"
+    cost: 150
+  - content: "Canary is always at a fixed stack offset from %fs:0x28. Look for values ending in 0x00."
+    cost: 100

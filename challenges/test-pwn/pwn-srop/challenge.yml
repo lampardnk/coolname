@@ -1,0 +1,27 @@
+name: "SROP Gadget"
+slug: pwn-srop
+category: "Test-Pwn"
+description: |
+  A minimal 64-bit binary — just a `read` into a buffer and a `syscall; ret` gadget.
+  No libc. No printf. No system(). Just you, the kernel, and signal frames.
+
+  Use Sigreturn-Oriented Programming to call `execve("/bin/sh", 0, 0)`.
+
+  **Binary protections**: NX, no PIE, no canary (custom assembly stub)
+
+  `nc <host> <port>`
+value: 600
+minimum: 50
+decay: 10
+flag: "CTF{srop_sigreturn_execve_syscall}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "SROP abuses the sigreturn syscall (15). Craft a fake sigcontext struct that sets RIP=syscall, RAX=59 (execve), RDI=ptr_to_binsh, RSI=0, RDX=0"
+    cost: 150
+  - content: "pwntools: use SigreturnFrame() to build the fake frame. Set frame.rip = syscall_gadget, frame.rax = 0x3b (execve)"
+    cost: 150
+  - content: "Place '/bin/sh\\0' in a known location (e.g., bss). The binary reads to address 0x601000."
+    cost: 100

@@ -1,0 +1,6 @@
+# Block direct HTTP access to pages/ directory.
+# Files here are meant to be included server-side, not fetched by browser.
+<FilesMatch "\.php$">
+    Order deny,allow
+    Deny from all
+</FilesMatch>

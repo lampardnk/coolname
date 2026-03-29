@@ -1,0 +1,28 @@
+name: "Stack Pivot"
+slug: pwn-pivot
+category: "Test-Pwn"
+description: |
+  You have a stack overflow — but only 16 bytes past the saved RIP.
+  That's not enough for a full ROP chain.
+
+  Think: can you move the stack somewhere more spacious?
+  A `leave; ret` gadget and a second writable buffer are all you need.
+
+  **Binary protections**: NX, no canary, no PIE
+
+  `nc <host> <port>`
+value: 550
+minimum: 50
+decay: 10
+flag: "CTF{stack_pivot_leave_ret_rop_bss}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "The binary has a global buffer at a known address (no PIE). Stage your ROP chain there first."
+    cost: 100
+  - content: "`leave` is equivalent to: mov rsp, rbp; pop rbp. Use it to pivot RSP to your planted chain."
+    cost: 150
+  - content: "Step 1: read full chain into global_buf. Step 2: overflow with [junk x8][global_buf - 8][leave;ret]"
+    cost: 150

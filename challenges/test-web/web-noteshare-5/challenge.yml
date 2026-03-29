@@ -1,0 +1,21 @@
+name: "NoteShare (5/5) — Path Problems"
+slug: web-noteshare-5
+category: "Test-Web"
+description: |
+  The same platform as Part 1. Boot from any part — all share one instance.
+
+  Flag format: `CTF{...}`
+scenario: asia-southeast1-docker.pkg.dev/project-37bfe636-96dd-4d8c-b26/ctf-scenarios/web-noteshare-1:latest
+value: 300
+minimum: 75
+decay: 10
+flag: "CTF{path_traversal_reads_arbitrary_files}"
+type: web
+mana: 1
+duration: 3600
+state: hidden
+additional:
+  group_master_slug: web-noteshare-1
+hints:
+  - content: "The file download endpoint uses os.path.join but doesn't sanitize the path."
+    cost: 150

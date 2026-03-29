@@ -1,0 +1,20 @@
+name: "NoteShare (1/5) — Hidden in Plain Sight"
+slug: web-noteshare-1
+category: "Test-Web"
+description: |
+  A university note-sharing platform. The developer says they followed "best practices"...
+
+  Boot your instance and start exploring. All 5 parts share the same running instance — boot from any part.
+
+  Flag format: `CTF{...}`
+value: 100
+minimum: 25
+decay: 10
+flag: "CTF{robots_txt_is_not_a_security_measure}"
+type: web
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "One flag is exposed without even opening a browser."
+    cost: 50

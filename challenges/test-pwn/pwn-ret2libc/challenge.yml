@@ -1,0 +1,27 @@
+name: "Ret2Libc"
+slug: pwn-ret2libc
+category: "Test-Pwn"
+description: |
+  NX is on so shellcode won't run — but libc is always there.
+
+  Leak the libc base address using `puts()`, then return to `system("/bin/sh")`.
+  The binary has no PIE and no stack canary.
+
+  **Binary protections**: NX, no canary, no PIE
+
+  `nc <host> <port>`
+value: 400
+minimum: 50
+decay: 10
+flag: "CTF{ret2libc_rop_leak_system_binsh}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "Stage 1: use a ROP gadget (pop rdi; ret) to call puts(puts@got) and leak libc"
+    cost: 100
+  - content: "Stage 2: calculate libc base = leaked_puts - libc.symbols['puts'], then call system('/bin/sh')"
+    cost: 150
+  - content: "Find 'pop rdi; ret' gadget with: ROPgadget --binary ./ret2libc | grep 'pop rdi'"
+    cost: 100

@@ -1,0 +1,17 @@
+name: "Secure Auth Portal"
+slug: sqli-login
+category: "Test-Web"
+description: |
+  My coworker built this "enterprise-grade" authentication portal.
+  He assures me it's unhackable because the admin password is very strong.
+
+  Prove him wrong. The flag is in the admin's profile.
+value: 200
+flag: "CTF{sql_1nject10n_bypasses_auth}"
+type: web
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "The login query is: SELECT * FROM accounts WHERE username='X' AND password='Y'"
+    cost: 75

@@ -1,0 +1,19 @@
+name: "Smart Notes"
+slug: ssti-notes
+category: "Test-Web"
+description: |
+  A note-taking app with a "smart" Jinja2 template preview feature.
+  Templates are rendered server-side — including access to Flask's internal config.
+
+  The flag is stored in the application config. Can you read it?
+value: 250
+flag: "CTF{ssti_jinja2_config_leak}"
+type: web
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "Flask's render_template_string() exposes the 'config' object to templates."
+    cost: 75
+  - content: "Try: {{ config }} — then look for FLAG in the output."
+    cost: 100

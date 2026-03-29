@@ -1,0 +1,21 @@
+name: "JWT Admin"
+slug: jwt-admin
+category: "Test-Web"
+description: |
+  This API issues JWT tokens and uses them to guard an admin panel.
+  You're given a guest account. The admin panel holds the flag.
+
+  Can you forge yourself an admin token?
+
+  Login: `guest` / `guest123`
+value: 300
+flag: "CTF{jwt_none_alg_unsigned_forgery}"
+type: web
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "JWT tokens are three base64url-encoded parts: header.payload.signature"
+    cost: 75
+  - content: "What happens if the algorithm in the header is set to 'none'?"
+    cost: 100

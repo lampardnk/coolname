@@ -1,0 +1,21 @@
+name: "NoteShare (2/5) — Identity Crisis"
+slug: web-noteshare-2
+category: "Test-Web"
+description: |
+  The same platform as Part 1. Boot from any part — all share one instance.
+
+  Flag format: `CTF{...}`
+scenario: asia-southeast1-docker.pkg.dev/project-37bfe636-96dd-4d8c-b26/ctf-scenarios/web-noteshare-1:latest
+value: 150
+minimum: 30
+decay: 10
+flag: "CTF{cookies_are_not_authentication}"
+type: web
+mana: 1
+duration: 3600
+state: hidden
+additional:
+  group_master_slug: web-noteshare-1
+hints:
+  - content: "Your browser stores small pieces of data client-side. What if you changed one of them?"
+    cost: 75

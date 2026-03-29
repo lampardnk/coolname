@@ -1,0 +1,6 @@
+name: pwn-ret2libc-scenario
+runtime:
+  name: go
+  options:
+    binary: ./main
+description: Pulumi scenario for pwn-ret2libc

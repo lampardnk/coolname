@@ -1,0 +1,6 @@
+name: pwn-heap-scenario
+runtime:
+  name: go
+  options:
+    binary: ./main
+description: Pulumi scenario for pwn-heap

@@ -1,0 +1,6 @@
+name: sqli-login-scenario
+runtime:
+  name: go
+  options:
+    binary: ./main
+description: Pulumi scenario for sqli-login

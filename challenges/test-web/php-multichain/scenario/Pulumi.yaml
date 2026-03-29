@@ -1,0 +1,6 @@
+name: php-multichain-scenario
+runtime:
+  name: go
+  options:
+    binary: ./main
+description: Pulumi scenario for php-multichain

@@ -1,0 +1,11 @@
+{
+  "name": "jwt-admin",
+  "version": "1.0.0",
+  "description": "JWT algorithm confusion CTF challenge",
+  "main": "app.js",
+  "scripts": { "start": "node app.js" },
+  "dependencies": {
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1"
+  }
+}

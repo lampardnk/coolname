@@ -1,0 +1,25 @@
+name: "Format Leak"
+slug: pwn-format
+category: "Test-Pwn"
+description: |
+  The echo server prints your message back using `printf(buf)`.
+  Classic format string — but the flag lives on the stack as a local variable.
+
+  **Binary protections**: NX, canary, no PIE
+
+  `nc <host> <port>`
+value: 350
+minimum: 50
+decay: 10
+flag: "CTF{format_string_stack_leak_printf}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "Try sending: %p.%p.%p.%p.%p.%p.%p.%p to see stack values"
+    cost: 75
+  - content: "The flag string is stored as a local variable pushed onto the stack before printf is called"
+    cost: 100
+  - content: "Count format specifiers until you see 0x43544600 (start of 'CTF{'). Use %Ns to read as string."
+    cost: 150

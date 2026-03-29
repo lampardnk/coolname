@@ -1,0 +1,6 @@
+name: web-noteshare-1-scenario
+runtime:
+  name: go
+  options:
+    binary: ./main
+description: Pulumi scenario for web-noteshare (NoteShare multi-flag)

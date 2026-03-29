@@ -1,0 +1,28 @@
+name: "Ret2Win"
+slug: pwn-ret2win
+category: "Test-Pwn"
+description: |
+  A classic binary exploitation warmup. The server is running a simple program
+  that reads your name. Something smells off about the buffer size...
+
+  A `win()` function exists in the binary but is never called. Your job is
+  to redirect execution there.
+
+  **Binary protections**: NX, no canary, no PIE
+
+  `nc <host> <port>`
+value: 200
+minimum: 50
+decay: 10
+flag: "CTF{ret2win_classic_bof_no_canary}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "Compile the binary yourself: gcc -fno-stack-protector -no-pie -o ret2win ret2win.c"
+    cost: 0
+  - content: "Use pwntools: cyclic(200) to find the offset, then overwrite RIP with win()"
+    cost: 75
+  - content: "Offset is 72 bytes. win() address can be found with: objdump -d ret2win | grep win"
+    cost: 150

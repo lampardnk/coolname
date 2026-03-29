@@ -1,0 +1,28 @@
+name: "Heap Art"
+slug: pwn-heap
+category: "Test-Pwn"
+description: |
+  A gallery application that lets you create and resize "art frames" on the heap.
+  Resizing uses `realloc()` but the old size check has an off-by-one.
+
+  Overflow a heap chunk's header, corrupt tcache metadata, win.
+
+  **Binary protections**: NX, canary, PIE, Full RELRO
+  **Libc**: Ubuntu 22.04 (glibc 2.35, tcache safe-linking enabled)
+
+  `nc <host> <port>`
+value: 600
+minimum: 50
+decay: 10
+flag: "CTF{heap_overflow_tcache_safe_link_bypass}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "Off-by-one in size check: if user specifies size N, the program reads N+1 bytes — overflowing into the next chunk's metadata"
+    cost: 100
+  - content: "glibc 2.35 uses safe-linking: fd = (heap_ptr >> 12) XOR next_chunk_addr. Leak heap addr first."
+    cost: 150
+  - content: "Overwrite tcache count to fake a free chunk, then allocate at __free_hook equivalent (there isn't one in 2.35 — target stdout->_flags instead)"
+    cost: 200

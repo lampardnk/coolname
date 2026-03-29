@@ -1,0 +1,6 @@
+# compiled Pulumi scenario binaries (rebuilt by deploy.py)
+*/scenario/main
+# Docker build cache artifacts
+*/image/__pycache__/
+# handout zips if auto-generated
+*/handout/*.zip

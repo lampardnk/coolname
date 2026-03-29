@@ -1,0 +1,29 @@
+name: "ByteVM"
+slug: pwn-vm
+category: "Test-Pwn"
+description: |
+  A custom 8-register bytecode VM written in C. Submit bytecode programs and watch them run.
+
+  The VM has 8 registers (r0–r7), a 512-byte memory region, and supports load/store/arithmetic/jump ops.
+  There's an out-of-bounds write in the STORE instruction — memory bounds checking uses a signed comparison.
+
+  Break out of the VM and read `/flag.txt`.
+
+  **Binary protections**: NX, canary, PIE, Full RELRO
+
+  `nc <host> <port>`
+value: 700
+minimum: 50
+decay: 10
+flag: "CTF{vm_escape_signed_oob_write_rop}"
+type: pwn
+mana: 1
+duration: 3600
+state: hidden
+hints:
+  - content: "STORE instruction: `if (addr < 512)` — addr is a uint8_t shifted left, but the check is done as int. Negative addr passes."
+    cost: 100
+  - content: "Use OOB write to corrupt the saved RIP on the stack (VM executes on the host stack frame). Calculate offset from vm->mem to return address."
+    cost: 200
+  - content: "Build a ROP chain in the VM's memory region, then pivot RSP to it via the OOB write overwriting the host's return address + gadgets."
+    cost: 200

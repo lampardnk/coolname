@@ -1,0 +1,6 @@
+name: jwt-admin-scenario
+runtime:
+  name: go
+  options:
+    binary: ./main
+description: Pulumi scenario for jwt-admin

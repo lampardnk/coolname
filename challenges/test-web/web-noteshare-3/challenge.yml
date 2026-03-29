@@ -1,0 +1,21 @@
+name: "NoteShare (3/5) — Classic Injection"
+slug: web-noteshare-3
+category: "Test-Web"
+description: |
+  The same platform as Part 1. Boot from any part — all share one instance.
+
+  Flag format: `CTF{...}`
+scenario: asia-southeast1-docker.pkg.dev/project-37bfe636-96dd-4d8c-b26/ctf-scenarios/web-noteshare-1:latest
+value: 200
+minimum: 50
+decay: 10
+flag: "CTF{sql_injection_bypasses_login}"
+type: web
+mana: 1
+duration: 3600
+state: hidden
+additional:
+  group_master_slug: web-noteshare-1
+hints:
+  - content: "The login form builds its SQL query through string formatting."
+    cost: 100
