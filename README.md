@@ -1,4 +1,4 @@
-# coolname needed
+# http://34.126.97.63, register then dm me ill verify, its 3am im too lazy to fix the auth flow 
 
 Complete guide for setting up the training platform from scratch on a new GCP project, operating it day-to-day, and fixing common issues.
 
