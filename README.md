@@ -1,8 +1,10 @@
-# CTF Platform — Setup, Operations & Troubleshooting
+# coolname needed
 
-Complete guide for setting up the CTF training platform from scratch on a new GCP project, operating it day-to-day, and fixing common issues.
+Complete guide for setting up the training platform from scratch on a new GCP project, operating it day-to-day, and fixing common issues.
 
 **Architecture:** CTFd on a GCP VM (head node) + per-user challenge instances on GKE, orchestrated by chall-manager via Pulumi.
+
+![My Diagram](architecture.drawio.png)
 
 ---
 
@@ -171,10 +173,6 @@ gcloud compute firewall-rules create ctf-head-ssh \
 gcloud compute firewall-rules create ctf-head-http \
   --allow=tcp:80 --target-tags=ctf-head
 
-# frp control (for legacy pwn challenges)
-gcloud compute firewall-rules create ctf-head-frp \
-  --allow=tcp:7000 --target-tags=ctf-head
-
 # Pwn challenge NodePort range
 gcloud compute firewall-rules create ctf-head-pwn \
   --allow=tcp:30000-31000 --target-tags=ctf-head
@@ -215,7 +213,6 @@ HEAD_IP=<VM_EXTERNAL_IP>
 TRAEFIK_LB_IP=<TRAEFIK_IP>
 DB_PASSWORD=<generate-random-hex>
 SECRET_KEY=<generate-random-hex>
-FRP_TOKEN=<generate-random-hex>
 EOF
 ```
 
@@ -392,7 +389,7 @@ Update `scripts/.ctf-deploy.env` with `TRAEFIK_IP=<the IP from above>`.
 
 ## 6. Docker Compose Services (Head Node)
 
-Create `/opt/ctfd/docker-compose.yml` on the head node. This defines all 7 services:
+Create `/opt/ctfd/docker-compose.yml` on the head node. This defines all 6 services:
 
 ```yaml
 version: "3.8"
@@ -463,15 +460,6 @@ services:
   cache:
     image: redis:7-alpine
     restart: always
-
-  frps:
-    image: snowdreamtech/frps:latest
-    restart: always
-    ports:
-      - "7000:7000"
-      - "30000-31000:30000-31000"
-    volumes:
-      - /opt/ctfd/conf/frp/frps.toml:/etc/frp/frps.toml:ro
 ```
 
 ### Start services
@@ -1386,14 +1374,13 @@ gcloud compute ssh ctf-head --zone=asia-southeast1-b --command="
   cd /opt/ctfd && sudo docker compose ps"
 ```
 
-Expected: all 7 services should show `Up`:
+Expected: all 6 services should show `Up`:
 - `ctfd-ctfd-1`
 - `ctfd-chall-manager-1`
 - `ctfd-chall-manager-janitor-1`
 - `ctfd-etcd-1`
 - `ctfd-db-1`
 - `ctfd-cache-1`
-- `ctfd-frps-1`
 
 ---
 
