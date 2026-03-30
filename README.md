@@ -6,6 +6,22 @@ Complete guide for setting up the training platform from scratch on a new GCP pr
 
 ![My Diagram](architecture.drawio.png)
 
+### Player data flow
+
+1. **Web challenges (HTTP):** Player's browser sends a request to `<user>-<slug>.<TRAEFIK_IP>.nip.io`. DNS resolves via nip.io to the Traefik load balancer's static IP. Traefik reads the hostname, matches it to an Ingress rule, forwards to that instance's ClusterIP Service, which routes to the challenge pod running on port 8080.
+
+2. **Pwn challenges (TCP):** Player runs `nc <GKE_NODE_IP> <port>`. Traffic hits the GKE node's external IP on the assigned NodePort (random port in 30000-32767). The NodePort Service forwards TCP to the challenge pod running socat on port 31337.
+
+3. **CTFd (Web UI + API):** Player's browser hits `http://<HEAD_IP>:80` for the CTFd web interface — browsing challenges, booting instances, submitting flags. When a player clicks "Boot", CTFd calls chall-manager via gRPC, which pulls the challenge's Pulumi scenario from Artifact Registry and runs `pulumi up` to create the pod, service, and ingress/nodeport on GKE. The `connection_info` (URL or nc command) is returned to CTFd and displayed to the player.
+
+### Admin data flow
+
+1. **Deploy (`deploy.py`):** From the local machine, the admin builds Docker images and pushes them to Artifact Registry (`ctf-images`), compiles Go scenario binaries and pushes them as OCI artifacts (`ctf-scenarios`), then calls the CTFd REST API to register challenges with their metadata, flags, and hints.
+
+2. **Infrastructure management:** The admin SSHes into the head node via `gcloud compute ssh` to manage Docker Compose services, inspect logs, restart chall-manager, or run kubectl commands against the GKE cluster.
+
+3. **Automated maintenance:** A cron job on the head node runs `refresh-cron.py` daily at 4 AM — refreshing stale GKE node IPs in pwn challenge configs, flushing the OCI cache in chall-manager, and cleaning up zombie pods.
+
 ---
 
 ## Table of Contents
